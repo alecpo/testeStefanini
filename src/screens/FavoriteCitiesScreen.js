@@ -15,7 +15,12 @@ const FavoriteCitiesScreen = ({ navigation }) => {
     <StyledContainer>
       {favoriteList.length > 0 ? (
         favoriteList.map(city => {
-          const { name, id, icon, temp } = city;
+          const {
+            name,
+            id,
+            weather,
+            main: { temp }
+          } = city;
           return (
             <StyledCardView
               key={id}
@@ -25,12 +30,14 @@ const FavoriteCitiesScreen = ({ navigation }) => {
               <StyledWeatherSection>
                 <Label
                   content={`${temp} °C`}
-                  marginRight={SPACING.regularPlus}
+                  marginRight={SPACING.big}
                   typography={TYPOGRAPHY.mediumLabelBold}
                 />
                 <StyledWeatherImage
                   source={{
-                    uri: `http://openweathermap.org/img/wn/${icon}@2x.png`
+                    uri: `http://openweathermap.org/img/wn/${
+                      weather[0].icon
+                    }@2x.png`
                   }}
                 />
               </StyledWeatherSection>

@@ -15,7 +15,11 @@ import COLORS from '#/utils/colors';
 import SPACING from '#/utils/spacing';
 import TYPOGRAPHY from '#/utils/typography';
 
-import { onAddFavorite, onRemoveFavorite } from '#/store/actions/citiesActions';
+import {
+  onAddFavorite,
+  onRemoveFavorite,
+  onUpdateFavorite
+} from '#/store/actions/citiesActions';
 
 const DetailsScreen = ({ route, navigation }) => {
   const { city } = route.params;
@@ -31,25 +35,20 @@ const DetailsScreen = ({ route, navigation }) => {
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
-    console.log(city);
     axios({
       method: 'get',
       url: API.weather,
       params: { id: city.id, appid, lang: 'pt', units: 'metric' }
     })
       .then(res => {
-        console.log(res.data);
         setInfo(res.data);
+        if (isFavorite) dispatch(onUpdateFavorite(res.data));
         setIsLoading(false);
       })
       .catch(e => {
         console.log('erro ao tentar recuperar clima: ', e);
       });
-  }, [city]);
-
-  useEffect(() => {
-    setIsFavorite(favoriteList.find(storeCity => storeCity.id === city.id));
-  }, [favoriteList, city]);
+  }, [city, dispatch, isFavorite]);
 
   const {
     main: { temp, temp_max, temp_min },
@@ -114,22 +113,14 @@ const DetailsScreen = ({ route, navigation }) => {
             <SubmitButton
               submit={
                 isFavorite
-                  ? () =>
-                      dispatch(
-                        onRemoveFavorite({
-                          ...city,
-                          icon: weather[0].icon,
-                          temp
-                        })
-                      )
-                  : () =>
-                      dispatch(
-                        onAddFavorite({
-                          ...city,
-                          icon: weather[0].icon,
-                          temp
-                        })
-                      )
+                  ? () => {
+                      setIsFavorite(false);
+                      dispatch(onRemoveFavorite(info));
+                    }
+                  : () => {
+                      setIsFavorite(true);
+                      dispatch(onAddFavorite(info));
+                    }
               }
               backgroundColor={
                 isFavorite ? COLORS.orange : COLORS.successButton
