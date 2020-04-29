@@ -32,3 +32,17 @@ prévio de trabalhos anteriores, o que permitiu uma melhor produtividade.
   de cidades favoritas
 - Criptografar a key utilizada na API openweathermap, qualquer um que
   interceptar a requisição pode passar a utilizar a key.
+- Adicionar funcionalidade de refresh para tela de cidades favoritas (a cidade
+  fica desatualizada até que o usuário acesse seus detalhes), assim, ao arrastar
+  a lista para baixo, executaria o update para todas os itens da lista.
+- Fazer o uso de um banco de dados, sendo este, o próprio SQLite que foi
+  solicitado ou até mesmo um AsyncStorage dado as funcionalidades deste
+  protótipo.
+
+## Pontos não entregues
+
+- Não foi possível implementar o SQLite: Atualmente estou atuando sozinho na
+  reescrita de um app, portanto estou com uma carga horária bem apertada. Como
+  utilizei bibliotecas um tanto quanto "chatinhas" de se instalarem (vide
+  react-native-vector-icons), gastei algum tempo arrumando erros de instalação e
+  rebuildando o app.
